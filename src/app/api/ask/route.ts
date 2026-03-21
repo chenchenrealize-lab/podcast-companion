@@ -1,23 +1,22 @@
 /**
  * AI 问答 API
- * 接收用户的问题，结合播客上下文，调用 DeepSeek 生成回答
- * 就像一个智能助教：你把问题和课堂笔记给他，他帮你解答
+ * 接收用户问题 + 播客上下文 + ASR 置信度 → DeepSeek 生成简短澄清回答
  */
 import { NextRequest, NextResponse } from "next/server";
 import { askQuestion } from "@/lib/deepseek";
 
 export async function POST(request: NextRequest) {
   try {
-    const { question, podcastContext } = await request.json();
+    const { question, podcastContext, isLowConfidence } = await request.json();
 
     if (!question) {
       return NextResponse.json({ error: "请输入问题" }, { status: 400 });
     }
 
-    // 调用 DeepSeek 回答问题
     const answer = await askQuestion({
       question,
       podcastContext: podcastContext || "（暂无播客内容）",
+      isLowConfidence: isLowConfidence || false,
     });
 
     return NextResponse.json({ answer });

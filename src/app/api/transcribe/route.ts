@@ -1,14 +1,13 @@
 /**
  * 语音转文字 API
- * 接收前端发来的音频文件，调用 Groq Whisper 转成文字
- * 就像一个翻译窗口：你递进去一段录音，翻译员还你一段文字
+ * 接收前端发来的音频文件，调用讯飞语音听写 API 转成文字
+ * 讯飞优势：国内服务器无网络问题、中英混合识别好、速度快
  */
 import { NextRequest, NextResponse } from "next/server";
-import { transcribeAudio } from "@/lib/groq";
+import { transcribeWithXfyun } from "@/lib/xfyun";
 
 export async function POST(request: NextRequest) {
   try {
-    // 从请求中取出音频文件
     const formData = await request.formData();
     const audioFile = formData.get("audio") as Blob | null;
 
@@ -16,10 +15,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "没有收到音频文件" }, { status: 400 });
     }
 
-    // 调用 Groq Whisper 转录
-    const text = await transcribeAudio(audioFile);
+    const { text, isLowConfidence } = await transcribeWithXfyun(audioFile);
 
-    return NextResponse.json({ text });
+    return NextResponse.json({ text, isLowConfidence });
   } catch (error) {
     console.error("转录失败:", error);
     const message =

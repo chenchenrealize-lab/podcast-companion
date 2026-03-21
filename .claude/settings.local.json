@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip:*)",
+      "Bash(python:*)",
+      "Bash(node:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(git:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(tree:*)",
+      "Skill(update-config)",
+      "Bash(unzip -o podcast-companion-v2.zip -d podcast-companion-v2)",
+      "Bash(npm run:*)",
+      "Bash(curl:*)",
+      "Bash(node -e \"process.stdin.on\\(''''data'''',d=>console.log\\(JSON.parse\\(d\\).version\\)\\)\")",
+      "Bash(npm install:*)",
+      "Bash(npx kill-port:*)",
+      "Bash(ffmpeg -version)",
+      "Bash(find . -maxdepth 3 -not -path */node_modules/* -not -path */.next/* -not -path */.git/*)",
+      "Bash(python3:*)"
+    ]
+  }
+}
